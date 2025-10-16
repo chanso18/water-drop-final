@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Drop Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="title-row">
+            <img src="img/water-can-transparent.png" alt="Water Can Logo" class="title-logo">
+            <h1 class="game-title">Charity : Water Drop</h1>
+        </div>
+        <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
+        <div class="score-panel">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="timer">Time: <span id="time">30</span>s</div>
+            <button id="start-btn">Start Game</button>
+        </div>
+        
+        <div id="game-container">
+        </div>
+            <div id="game-over-popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <h2>Game Over</h2>
+                    <p>Your Score: <span id="final-score">0</span></p>
+                    <button id="close-popup">Close</button>
+                </div>
+            </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

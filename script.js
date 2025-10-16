@@ -5,8 +5,34 @@ let countdownTimer; // Will store our countdown interval
 let timeLeft = 30; // Countdown starts at 30 seconds
 let score = 0;
 
+// Difficulty settings
+let difficultySettings = {
+  easy: {
+    badDropRate: 0,        // 0% bad drops
+    dropInterval: 750,     // Same as medium
+    speedMultiplier: 0.75   // 25% slower (multiply duration by 1.25)
+  },
+  medium: {
+    badDropRate: 0.2,      // 20% bad drops
+    dropInterval: 500,     // 500ms between drops
+    speedMultiplier: 1     // Normal speed
+  },
+  hard: {
+    badDropRate: 0.4,      // 40% bad drops
+    dropInterval: 400,     // 20% faster drop rate (500 * 0.8)
+    speedMultiplier: 1.5   // 50% faster (divide duration by 1.5)
+  }
+};
+
+let currentDifficulty = 'medium';
+
 // Wait for button click to start the game
 document.getElementById("start-btn").addEventListener("click", startGame);
+
+// Listen for difficulty changes
+document.getElementById("difficulty-select").addEventListener("change", function(e) {
+  currentDifficulty = e.target.value;
+});
 
 function startGame() {
   // Prevent multiple games from running at once
@@ -21,8 +47,9 @@ function startGame() {
   document.getElementById("score").textContent = score;
   document.getElementById("game-over-popup").style.display = "none";
 
-  // Create new drops every 0.5 seconds (500 milliseconds)
-  dropMaker = setInterval(createDrop, 500);
+  // Create new drops based on difficulty interval
+  const settings = difficultySettings[currentDifficulty];
+  dropMaker = setInterval(createDrop, settings.dropInterval);
 }
 
 function startCountdown() {
@@ -51,8 +78,11 @@ function createDrop() {
   // Create a new div element that will be our water drop
   const drop = document.createElement("div");
 
-  // 20% chance to be a bad drop
-  const isBadDrop = Math.random() < 0.2;
+  // Get current difficulty settings
+  const settings = difficultySettings[currentDifficulty];
+
+  // Check for bad drop based on difficulty
+  const isBadDrop = Math.random() < settings.badDropRate;
   if (isBadDrop) {
     drop.className = "water-drop bad-drop";
   } else {
@@ -72,9 +102,11 @@ function createDrop() {
   drop.style.left = xPosition + "px";
 
   // Make drops fall for a random duration between 4s (fastest) and 8s (slowest)
+  // Adjust based on difficulty speed multiplier
   const minDuration = 4; // seconds
   const maxDuration = 8; // seconds
-  const duration = Math.random() * (maxDuration - minDuration) + minDuration;
+  const baseDuration = Math.random() * (maxDuration - minDuration) + minDuration;
+  const duration = baseDuration / settings.speedMultiplier;
   drop.style.animationDuration = duration + "s";
 
   // Add the new drop to the game screen

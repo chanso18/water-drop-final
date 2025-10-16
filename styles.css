@@ -91,6 +91,37 @@ body {
     }
 }
 
+.difficulty-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background-color: #fff7e1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px #1A1A1A;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.difficulty-panel label {
+    color: #131313;
+}
+
+#difficulty-select {
+    padding: 6px 12px;
+    background-color: #77A8BB;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#difficulty-select:hover {
+    background-color: #003366;
+}
+
 .timer {
     flex: 0 1 auto;
     font-size: 24px;

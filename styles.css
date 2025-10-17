@@ -12,6 +12,7 @@
     width: auto;
     object-fit: contain;
     display: block;
+    margin-top: 40px;
 }
 /* Import Proxima Nova from Adobe Fonts or fallback to system font */
 @import url('https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;700&display=swap');
@@ -47,11 +48,12 @@ Fonts:
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
+    font-family: Proxima Nova, Avenir, Benne, sans-serif;
 }
 
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -104,7 +106,7 @@ body {
 }
 
 .difficulty-panel label {
-    color: #131313;
+    color: #1A1A1A;
 }
 
 #difficulty-select {
@@ -176,7 +178,7 @@ body {
 .popup-content p {
     font-size: 22px;
     margin-bottom: 24px;
-    color: #131313;
+    color: #1A1A1A;
 }
 
 #close-popup {
@@ -236,7 +238,7 @@ body {
 }
 
 .bad-drop {
-    background-image: url('img/Charity\ _\ Water\ Wirefram\ \(1\)\ \(1\).png');
+    background-image: url('img/output-onlinepngtools\ \(2\).png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -246,7 +248,7 @@ body {
 .game-title {
     color: #fff7e1;
     font-size: 48px;
-    margin-top: 0;
+    margin-top: 40px;
     margin-bottom: 5px;  /* reduced from 20px */
     text-align: center;
 }
@@ -256,6 +258,52 @@ body {
     font-size: 18px;
     margin-bottom: 20px;
     text-align: center;
+}
+
+.game-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff7e1;
+    width: 100%;
+}
+
+.footer-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.footer-link {
+    color: #fff7e1;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #77A8BB;
+    text-decoration: underline;
+}
+
+.donate-btn {
+    padding: 10px 24px;
+    background-color: #FFC907;
+    color: #1A1A1A;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.donate-btn:hover {
+    background-color: #FED8C1;
+    color: #1A1A1A;
 }
 
 @keyframes dropFall {

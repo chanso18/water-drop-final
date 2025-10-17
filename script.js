@@ -1,5 +1,6 @@
 // Variables to control game state
 let gameRunning = false; // Keeps track of whether game is active or not
+let gamePaused = false; // Keeps track of whether game is paused
 let dropMaker; // Will store our timer that creates drops regularly
 let countdownTimer; // Will store our countdown interval
 let timeLeft = 30; // Countdown starts at 30 seconds
@@ -26,19 +27,33 @@ let difficultySettings = {
 
 let currentDifficulty = 'medium';
 
-// Wait for button click to start the game
-document.getElementById("start-btn").addEventListener("click", startGame);
+// Wait for button click to handle start/pause/resume
+document.getElementById("start-btn").addEventListener("click", handleGameButton);
 
 // Listen for difficulty changes
 document.getElementById("difficulty-select").addEventListener("change", function(e) {
   currentDifficulty = e.target.value;
 });
 
+function handleGameButton() {
+  if (!gameRunning) {
+    // Game not running, start it
+    startGame();
+  } else if (gamePaused) {
+    // Game is paused, resume it
+    resumeGame();
+  } else {
+    // Game is running, pause it
+    pauseGame();
+  }
+}
+
 function startGame() {
   // Prevent multiple games from running at once
   if (gameRunning) return;
 
   gameRunning = true;
+  gamePaused = false;
   timeLeft = 30;
   document.getElementById("time").textContent = timeLeft;
   startCountdown();
@@ -47,9 +62,47 @@ function startGame() {
   document.getElementById("score").textContent = score;
   document.getElementById("game-over-popup").style.display = "none";
 
+  // Update button text to "Pause"
+  document.getElementById("start-btn").textContent = "Pause";
+
   // Create new drops based on difficulty interval
   const settings = difficultySettings[currentDifficulty];
   dropMaker = setInterval(createDrop, settings.dropInterval);
+}
+
+function pauseGame() {
+  gamePaused = true;
+  clearInterval(dropMaker);
+  clearInterval(countdownTimer);
+  
+  // Freeze all existing drops
+  const drops = document.querySelectorAll('.water-drop');
+  drops.forEach(drop => {
+    drop.style.animationPlayState = 'paused';
+  });
+  
+  // Update button text to "Resume"
+  document.getElementById("start-btn").textContent = "Resume";
+}
+
+function resumeGame() {
+  gamePaused = false;
+  
+  // Resume countdown
+  startCountdown();
+  
+  // Resume creating drops
+  const settings = difficultySettings[currentDifficulty];
+  dropMaker = setInterval(createDrop, settings.dropInterval);
+  
+  // Unfreeze all existing drops
+  const drops = document.querySelectorAll('.water-drop');
+  drops.forEach(drop => {
+    drop.style.animationPlayState = 'running';
+  });
+  
+  // Update button text back to "Pause"
+  document.getElementById("start-btn").textContent = "Pause";
 }
 
 function startCountdown() {
@@ -68,8 +121,13 @@ function startCountdown() {
 
 function endGame() {
   gameRunning = false;
+  gamePaused = false;
   clearInterval(dropMaker);
   clearInterval(countdownTimer);
+  
+  // Reset button text to "Start Game"
+  document.getElementById("start-btn").textContent = "Start Game";
+  
   // Show game over popup
   document.getElementById("final-score").textContent = score;
   document.getElementById("game-over-popup").style.display = "flex";
@@ -119,7 +177,7 @@ function createDrop() {
 
   // Add click event to update score
   drop.addEventListener("click", () => {
-    if (gameRunning) {
+    if (gameRunning && !gamePaused) {
       if (isBadDrop) {
         score--;
       } else {
